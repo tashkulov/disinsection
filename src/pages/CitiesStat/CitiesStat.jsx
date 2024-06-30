@@ -6,7 +6,7 @@ const CitiesStat = () => {
 
     useEffect(() => {
         const fetchData = async () => {
-            const response = await axios.get('http://31.129.103.253:8001/api/v1/cities-stat', {
+            const response = await axios.get('https://31.129.103.253:8001/api/v1/cities-stat', {
                 params: {
                     user_id: '894740958',
                     start_date: '01.01.2024',
