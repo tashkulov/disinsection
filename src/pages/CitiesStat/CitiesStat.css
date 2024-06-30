@@ -1,0 +1,25 @@
+.cities-stat {
+    padding: 20px;
+}
+
+.stat-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+.stat-table th, .stat-table td {
+    padding: 12px;
+    text-align: center;
+    border: 1px solid #ddd;
+}
+
+.stat-table th {
+    background-color: #f0f0f0;
+}
+
+@media (max-width: 768px) {
+    .stat-table {
+        font-size: 14px;
+    }
+}

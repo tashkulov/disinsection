@@ -1,0 +1,41 @@
+/* MastersStat.css */
+
+.masters-stat {
+    padding: 20px;
+}
+
+.stat-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+}
+
+.stat-table th,
+.stat-table td {
+    border: 1px solid #dee2e6;
+    padding: 12px;
+    text-align: center;
+}
+
+.stat-table th {
+    background-color: #f8f9fa;
+}
+
+/* Styling for table rows */
+.stat-table tbody tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+/* Hover effect */
+.stat-table tbody tr:hover {
+    background-color: #e9ecef;
+    cursor: pointer;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    .stat-table th,
+    .stat-table td {
+        padding: 8px;
+    }
+}
