@@ -23,7 +23,7 @@ const OrdersInProgress = () => {
     };
 
     const handlePickOrder = async (orderId) => {
-        await axios.post('https://31.129.103.253:8001/api/v1/pick_order', {
+        await axios.post('http://31.129.103.253:8001/api/v1/pick_order', {
             order_id: orderId,
             user_id: '894740958'
         });
