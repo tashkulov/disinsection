@@ -6,7 +6,7 @@ const UnclaimedOrders = () => {
 
     useEffect(() => {
         const fetchData = async () => {
-            const response = await axios.get('https://31.129.103.253:8001/api/v1/not-accepted-leads', {
+            const response = await axios.get('http://31.129.103.253:8001/api/v1/not-accepted-leads', {
                 params: {
                     user_id: '894740958',
                     start_date: '01.01.2024',
