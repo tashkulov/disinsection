@@ -1,39 +1,32 @@
-.unclaimed-orders {
-    padding: 20px;
+.stat-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+    font-size: 18px;
+    text-align: left;
 }
 
-.orders-list {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-    gap: 20px;
+.stat-table thead tr {
+    background-color: #009879;
+    color: #ffffff;
+    text-align: left;
+    font-weight: bold;
 }
 
-.order {
-    background-color: #f0f0f0;
-    padding: 10px;
-    border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+.stat-table th,
+.stat-table td {
+    padding: 12px 15px;
+    border: 1px solid #dddddd;
 }
 
-.order h3 {
-    margin-top: 0;
+.stat-table tbody tr {
+    border-bottom: 1px solid #dddddd;
 }
 
-.order p {
-    margin-bottom: 8px;
+.stat-table tbody tr:nth-of-type(even) {
+    background-color: #f3f3f3;
 }
 
-.order button {
-    margin-top: 10px;
-    padding: 8px 16px;
-    background-color: #007bff;
-    color: #fff;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-}
-
-.order button:disabled {
-    background-color: #ccc;
-    cursor: not-allowed;
+.stat-table tbody tr:last-of-type {
+    border-bottom: 2px solid #009879;
 }

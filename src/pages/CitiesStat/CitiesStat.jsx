@@ -1,52 +1,50 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+import { getCitiesStat } from '../../api/api.js';
+import './CitiesStat.css';
 
 const CitiesStat = () => {
-    const [data, setData] = useState(null);
+    const [citiesStat, setCitiesStat] = useState(null);
 
     useEffect(() => {
-        const fetchData = async () => {
-            const response = await axios.get('http://31.129.103.253:8001/api/v1/cities-stat', {
-                params: {
-                    user_id: '894740958',
-                    start_date: '01.01.2024',
-                    end_date: '30.06.2024',
-                    city: 'Все города'
-                }
-            });
-            setData(response.data);
+        const fetchCitiesStat = async () => {
+            try {
+                const response = await getCitiesStat('894740958', 'Все города', '01.01.2023', '01.02.2023');
+                setCitiesStat(response);
+            } catch (error) {
+                console.error('Ошибка при получении статистики по городам:', error);
+            }
         };
-        fetchData();
-    }, []);
 
-    if (!data) {
-        return <div>Loading...</div>;
-    }
+        fetchCitiesStat();
+    }, []);
 
     return (
         <div>
-            <h2>Статистика по городам</h2>
-            <div>Средний чек по всем городам: {data.total_average_check}</div>
-            <table>
-                <thead>
-                <tr>
-                    <th>Город</th>
-                    <th>Средний чек</th>
-                    <th>Повторные заявки</th>
-                    <th>% Повторных заявок</th>
-                </tr>
-                </thead>
-                <tbody>
-                {data.statistic.map((city, index) => (
-                    <tr key={index}>
-                        <td>{city.city}</td>
-                        <td>{city.average_check}</td>
-                        <td>{city.repetitions_count}</td>
-                        <td>{city.percentage_of_repetitions}</td>
+            <h1>Статистика по городам</h1>
+            {citiesStat && (
+                <table className="stat-table">
+                    <thead>
+                    <tr>
+                        <th>Город</th>
+                        <th>Количество заявок</th>
+                        <th>Средний чек</th>
+                        <th>Количество повторов</th>
+                        <th>Процент повторов</th>
                     </tr>
-                ))}
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody>
+                    {citiesStat.statistic.map((city) => (
+                        <tr key={city.id}>
+                            <td>{city.city_name}</td>
+                            <td>{city.order_count}</td>
+                            <td>{city.average_check}</td>
+                            <td>{city.repetitions_count}</td>
+                            <td>{city.percentage_of_repetitions}%</td>
+                        </tr>
+                    ))}
+                    </tbody>
+                </table>
+            )}
         </div>
     );
 };

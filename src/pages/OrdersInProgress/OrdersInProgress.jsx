@@ -1,61 +1,50 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+import { getOrdersInWork } from '../../api/api.js';
 import './OrdersInProgress.css';
 
 const OrdersInProgress = () => {
-    const [data, setData] = useState([]);
+    const [ordersInProgress, setOrdersInProgress] = useState(null);
 
     useEffect(() => {
-        axios.get('/api/v1/orders-in-work?user_id=894740958&start_date=01.01.2024&end_date=30.06.2024&city=Все города')
-            .then(response => {
-                setData(response.data.orders);
-            })
-            .catch(error => {
-                console.error("There was an error fetching the data!", error);
-            });
+        const fetchOrdersInWork = async () => {
+            try {
+                const response = await getOrdersInWork('894740958', '01.01.2023', '01.02.2023', 'Все города', );
+                setOrdersInProgress(response);
+            } catch (error) {
+                console.error('Ошибка при получении заявок в работе:', error);
+            }
+        };
+
+        fetchOrdersInWork();
     }, []);
 
-    const handleCancelVipOrder = async (orderId) => {
-        await axios.post('http://31.129.103.253:8001/api/v1/cancel_vip_order', {
-            order_id: orderId
-        });
-        // Handle response and update state if needed
-    };
-
-    const handlePickOrder = async (orderId) => {
-        await axios.post('http://31.129.103.253:8001/api/v1/pick_order', {
-            order_id: orderId,
-            user_id: '894740958'
-        });
-        // Handle response and update state if needed
-    };
-
-    if (!data) {
-        return <div>Loading...</div>;
-    }
-
     return (
-        <div className="orders-in-progress">
+        <div>
             <h1>Заявки в работе</h1>
-            <div className="orders-list">
-                {data.map(order => (
-                    <div className="order" key={order.order_id}>
-                        <h2>{order.title}</h2>
-                        <p>Город: {order.city}</p>
-                        <p>Дата и время: {order.datetime}</p>
-                        <p>Адрес: {order.contact_address}</p>
-                        <div className="order-actions">
-                            <button
-                                disabled={!order.vip_order}
-                                onClick={() => handleCancelVipOrder(order.order_id)}
-                            >
-                                В общее распределение
-                            </button>
-                            <button onClick={() => handlePickOrder(order.order_id)}>Назначить на себя</button>
-                        </div>
-                    </div>
-                ))}
-            </div>
+            {ordersInProgress && (
+                <table className="stat-table">
+                    <thead>
+                    <tr>
+                        <th>ID заявки</th>
+                        <th>Дата начала</th>
+                        <th>Город</th>
+                        <th>Мастер</th>
+                        <th>Статус</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {ordersInProgress.orders.map((order) => (
+                        <tr key={order.id}>
+                            <td>{order.id}</td>
+                            <td>{order.start_date}</td>
+                            <td>{order.city}</td>
+                            <td>{order.master}</td>
+                            <td>{order.status}</td>
+                        </tr>
+                    ))}
+                    </tbody>
+                </table>
+            )}
         </div>
     );
 };

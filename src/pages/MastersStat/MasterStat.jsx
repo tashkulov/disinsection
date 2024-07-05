@@ -1,57 +1,54 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
-import './MastersStat.css'; // Import the CSS file
+import { getMastersStat } from '../../api/api.js';
+import './MastersStat.css';
 
 const MastersStat = () => {
-    const [data, setData] = useState(null);
+    const [mastersStat, setMastersStat] = useState(null);
 
     useEffect(() => {
-        const fetchData = async () => {
-            const response = await axios.get('http://31.129.103.253:8001/api/v1/masters-stat', {
-                params: {
-                    user_id: '894740958',
-                    start_date: '01.01.2024',
-                    end_date: '30.06.2024',
-                    city: 'Все города'
-                }
-            });
-            setData(response.data);
+        const fetchMastersStat = async () => {
+            try {
+                const response = await getMastersStat('894740958', 'Все города', '01.01.2023', '01.02.2023');
+                setMastersStat(response);
+            } catch (error) {
+                console.error('Ошибка при получении статистики по мастерам:', error);
+            }
         };
-        fetchData();
-    }, []);
 
-    if (!data) {
-        return <div>Loading...</div>;
-    }
+        fetchMastersStat();
+    }, []);
 
     return (
         <div>
-            <h2>Статистика по мастерам</h2>
-            <div>Средний чек по всем мастерам: {data.total_average_check}</div>
-            <table className="stat-table">
-                <thead>
-                <tr>
-                    <th>Имя мастера</th>
-                    <th>Рейтинг</th>
-                    <th>Город</th>
-                    <th>Средний чек</th>
-                    <th>Повторные заявки</th>
-                    <th>% Повторных заявок</th>
-                </tr>
-                </thead>
-                <tbody>
-                {data.statistic.map((master, index) => (
-                    <tr key={index}>
-                        <td>{master.master_name}</td>
-                        <td>{master.rating}</td>
-                        <td>{master.city}</td>
-                        <td>{master.average_check}</td>
-                        <td>{master.repetitions_count}</td>
-                        <td>{master.percentage_of_repetitions}</td>
+            <h1>Статистика по мастерам</h1>
+            {mastersStat && (
+                <table className="stat-table">
+                    <thead>
+                    <tr>
+                        <th>Имя мастера</th>
+                        <th>ID</th>
+                        <th>Рейтинг</th>
+                        <th>Города</th>
+                        <th>Средний чек</th>
+                        <th>Количество повторов</th>
+                        <th>Процент повторов</th>
                     </tr>
-                ))}
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody>
+                    {mastersStat.statistic.map((master) => (
+                        <tr key={master.id}>
+                            <td>{master.master_name}</td>
+                            <td>{master.id}</td>
+                            <td>{master.rating}</td>
+                            <td>{master.city}</td>
+                            <td>{master.average_check}</td>
+                            <td>{master.repetitions_count}</td>
+                            <td>{master.percentage_of_repetitions}%</td>
+                        </tr>
+                    ))}
+                    </tbody>
+                </table>
+            )}
         </div>
     );
 };
