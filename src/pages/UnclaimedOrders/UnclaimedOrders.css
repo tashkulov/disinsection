@@ -4,6 +4,7 @@
     margin: 20px 0;
     font-size: 18px;
     text-align: left;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
 }
 
 .stat-table thead tr {
@@ -17,6 +18,7 @@
 .stat-table td {
     padding: 12px 15px;
     border: 1px solid #dddddd;
+    text-align: center;
 }
 
 .stat-table tbody tr {
@@ -29,4 +31,42 @@
 
 .stat-table tbody tr:last-of-type {
     border-bottom: 2px solid #009879;
+}
+
+.stat-table tbody tr:hover {
+    background-color: #f1f1f1;
+    cursor: pointer;
+}
+
+.stat-table th {
+    background-color: #ff6f61;
+}
+
+h1, h2 {
+    color: #009879;
+    text-align: center;
+}
+
+ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+ul li {
+    background: #009879;
+    color: white;
+    margin: 5px 0;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+div {
+    margin: 20px;
+    font-family: Arial, sans-serif;
+}
+
+.loading {
+    text-align: center;
+    font-size: 24px;
+    color: #009879;
 }

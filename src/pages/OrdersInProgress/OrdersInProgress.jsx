@@ -8,7 +8,7 @@ const OrdersInProgress = () => {
     useEffect(() => {
         const fetchOrdersInWork = async () => {
             try {
-                const response = await getOrdersInWork('894740958', '01.01.2023', '01.02.2023', 'Все города', );
+                const response = await getOrdersInWork('894740958', '07.01.2024', '30.06.2024', 'Все города');
                 setOrdersInProgress(response);
             } catch (error) {
                 console.error('Ошибка при получении заявок в работе:', error);
@@ -18,10 +18,22 @@ const OrdersInProgress = () => {
         fetchOrdersInWork();
     }, []);
 
+    if (!ordersInProgress) {
+        return <div>Загрузка...</div>;
+    }
+
     return (
         <div>
             <h1>Заявки в работе</h1>
-            {ordersInProgress && (
+            <h2>Список городов</h2>
+            <ul>
+                {ordersInProgress.cities.map((city, index) => (
+                    <li key={index}>{city}</li>
+                ))}
+            </ul>
+
+            <h2>Детали заявок</h2>
+            {ordersInProgress.orders.length > 0 ? (
                 <table className="stat-table">
                     <thead>
                     <tr>
@@ -44,6 +56,8 @@ const OrdersInProgress = () => {
                     ))}
                     </tbody>
                 </table>
+            ) : (
+                <div>Нет заявок в работе.</div>
             )}
         </div>
     );

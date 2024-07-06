@@ -8,7 +8,7 @@ const CitiesStat = () => {
     useEffect(() => {
         const fetchCitiesStat = async () => {
             try {
-                const response = await getCitiesStat('894740958', 'Все города', '01.01.2023', '01.02.2023');
+                const response = await getCitiesStat('894740958', 'Все города', '01.01.2024', '30.06.2024');
                 setCitiesStat(response);
             } catch (error) {
                 console.error('Ошибка при получении статистики по городам:', error);
@@ -18,28 +18,31 @@ const CitiesStat = () => {
         fetchCitiesStat();
     }, []);
 
+    if (!citiesStat) {
+        return <div>Загрузка...</div>;
+    }
+
     return (
         <div>
             <h1>Статистика по городам</h1>
+            <h2>Общий средний чек: {citiesStat.total_average_check}</h2>
             {citiesStat && (
                 <table className="stat-table">
                     <thead>
                     <tr>
                         <th>Город</th>
-                        <th>Количество заявок</th>
                         <th>Средний чек</th>
                         <th>Количество повторов</th>
                         <th>Процент повторов</th>
                     </tr>
                     </thead>
                     <tbody>
-                    {citiesStat.statistic.map((city) => (
-                        <tr key={city.id}>
-                            <td>{city.city_name}</td>
-                            <td>{city.order_count}</td>
-                            <td>{city.average_check}</td>
-                            <td>{city.repetitions_count}</td>
-                            <td>{city.percentage_of_repetitions}%</td>
+                    {citiesStat.statistic.map((city, index) => (
+                        <tr key={index}>
+                            <td data-label="Город">{city.city}</td>
+                            <td data-label="Средний чек">{city.average_check}</td>
+                            <td data-label="Количество повторов">{city.repetitions_count}</td>
+                            <td data-label="Процент повторов">{city.percentage_of_repetitions}%</td>
                         </tr>
                     ))}
                     </tbody>
